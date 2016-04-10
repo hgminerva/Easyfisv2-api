@@ -15,8 +15,11 @@ namespace easyfisv2_api.Data
         {
         }
 
+        public DbSet<MstAccount> MstAccounts { get; set; }
         public DbSet<MstAccountCategory> MstAccountCategories { get; set; }
         public DbSet<MstAccountCashFlow> MstAccountCashFlows { get; set; }
+        public DbSet<MstAccountType> MstAccountTypes { get; set; }
+        public DbSet<MstUser> MstUsers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

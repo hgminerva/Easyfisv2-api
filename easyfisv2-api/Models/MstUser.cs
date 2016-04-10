@@ -3,22 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace easyfisv2_api.Data
+namespace easyfisv2_api.Models
 {
-    public class MstAccountCategory
+    public class MstUser
     {
-        public MstAccountCategory()
-        {
-            this.MstAccountTypes = new HashSet<MstAccountType>();
-        }
         public Int32 Id { get; set; }
-        public String AccountCategoryCode { get; set; }
-        public String AccountCategory { get; set; }
+        public String UserName { get; set; }
+        public String Password { get; set; }
+        public String FullName { get; set; }
+        public String UserId { get; set; }
         public Boolean IsLocked { get; set; }
         public Int32 CreatedById { get; set; }
         public DateTime CreatedDateTime { get; set; }
         public Int32 UpdatedById { get; set; }
         public DateTime UpdatedDateTime { get; set; }
-        public virtual ICollection<MstAccountType> MstAccountTypes { get; set; }
     }
 }

@@ -8,20 +8,20 @@ using System.Web.Http;
 
 namespace easyfisv2_api.Controllers
 {
-    //[Authorize]
-    public class AccountCashFlowController : ApiController
+    [Authorize]
+    public class MstAccountCashFlowController : ApiController
     {
         private Data.Easyfisv2DBContext db = new Data.Easyfisv2DBContext();
 
         // GET api/AccountCashFlow
-        public List<AccountCashFlow> Get()
+        public List<MstAccountCashFlow> Get()
         {
             var accountCashFlows = from d in db.MstAccountCashFlows
-                                    select new Models.AccountCashFlow
+                                    select new Models.MstAccountCashFlow
                                     {
                                        Id = d.Id,
                                        AccountCashFlowCode = d.AccountCashFlowCode,
-                                       AccountCashFlowDescription = d.AccountCashFlow,
+                                       AccountCashFlow = d.AccountCashFlow,
                                        IsLocked = d.IsLocked,
                                        CreatedById = d.CreatedById,
                                        CreatedDateTime = d.CreatedDateTime,

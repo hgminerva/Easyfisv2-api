@@ -5,11 +5,11 @@ using System.Web;
 
 namespace easyfisv2_api.Models
 {
-    public class AccountCategory
+    public class MstAccountCategory
     {
         public Int32 Id { get; set; }
         public String AccountCategoryCode { get; set; }
-        public String AccountCategoryDescription { get; set; }
+        public String AccountCategory { get; set; }
         public Boolean IsLocked { get; set; }
         public Int32 CreatedById { get; set; }
         public DateTime CreatedDateTime { get; set; }

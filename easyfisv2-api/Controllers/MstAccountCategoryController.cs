@@ -9,19 +9,19 @@ using System.Web.Http;
 namespace easyfisv2_api.Controllers
 {
     [Authorize]
-    public class AccountCategoryController : ApiController
+    public class MstAccountCategoryController : ApiController
     {
         private Data.Easyfisv2DBContext db = new Data.Easyfisv2DBContext();
 
-        // GET api/AccountCategory
-        public List<AccountCategory> Get()
+        // GET api/MstAccountCategory
+        public List<MstAccountCategory> Get()
         {
             var accountCategories = from d in db.MstAccountCategories
-                                    select new Models.AccountCategory
+                                    select new Models.MstAccountCategory
                                     {
                                        Id = d.Id,
                                        AccountCategoryCode = d.AccountCategoryCode,
-                                       AccountCategoryDescription = d.AccountCategory,
+                                       AccountCategory = d.AccountCategory,
                                        IsLocked = d.IsLocked,
                                        CreatedById = d.CreatedById,
                                        CreatedDateTime = d.CreatedDateTime,
@@ -31,23 +31,23 @@ namespace easyfisv2_api.Controllers
             return accountCategories.ToList();
         }
 
-        // GET api/<controller>/5
+        // GET api/MstAccountCategory/5
         public string Get(int id)
         {
             return "value";
         }
 
-        // POST api/<controller>
+        // POST api/MstAccountCategory
         public void Post([FromBody]string value)
         {
         }
 
-        // PUT api/<controller>/5
+        // PUT api/MstAccountCategory/5
         public void Put(int id, [FromBody]string value)
         {
         }
 
-        // DELETE api/<controller>/5
+        // DELETE api/MstAccountCategory/5
         public void Delete(int id)
         {
         }
