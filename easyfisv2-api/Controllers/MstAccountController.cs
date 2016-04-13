@@ -59,57 +59,74 @@ namespace easyfisv2_api.Controllers
         }
 
         // POST api/MstAccount
-        public void Post([FromBody]MstAccount value)
+        public HttpResponseMessage Post([FromBody]MstAccount value)
         {
-            var user = (from d in db.MstUsers where d.UserName == User.Identity.Name select d).SingleOrDefault();
+            try
+            {
+                var user = (from d in db.MstUsers where d.UserName == User.Identity.Name select d).SingleOrDefault();
 
-            Data.MstAccount newAccount = new Data.MstAccount();
+                Data.MstAccount newAccount = new Data.MstAccount();
 
-            newAccount.AccountCode = value.AccountCode;
-            newAccount.Account = value.Account;
-            newAccount.AccountTypeId = value.AccountTypeId;
-            newAccount.AccountCashFlowId = value.AccountCashFlowId;
-            newAccount.IsLocked = true;
-            newAccount.CreatedById = user.Id;
-            newAccount.CreatedDateTime = DateTime.Now;
-            newAccount.UpdatedById = user.Id;
-            newAccount.UpdatedDateTime = DateTime.Now;
+                newAccount.AccountCode = value.AccountCode;
+                newAccount.Account = value.Account;
+                newAccount.AccountTypeId = value.AccountTypeId;
+                newAccount.AccountCashFlowId = value.AccountCashFlowId;
+                newAccount.IsLocked = true;
+                newAccount.CreatedById = user.Id;
+                newAccount.CreatedDateTime = DateTime.Now;
+                newAccount.UpdatedById = user.Id;
+                newAccount.UpdatedDateTime = DateTime.Now;
 
-            db.MstAccounts.Add(newAccount);
-            db.SaveChanges();
+                db.MstAccounts.Add(newAccount);
+                db.SaveChanges();
+
+                return Request.CreateResponse(HttpStatusCode.OK);
+            } catch (Exception e) {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, e.ToString());
+            }
         }
 
         // PUT api/MstAccount/5
-        public void Put(int id, [FromBody]MstAccount value)
+        public HttpResponseMessage Put(int id, [FromBody]MstAccount value)
         {
-            var account = from d in db.MstAccounts where d.Id == id select d;
-            if (account.Any())
-            {
-                var editAccount = account.FirstOrDefault();
+            try {
+                var account = from d in db.MstAccounts where d.Id == id select d;
+                if (account.Any())
+                {
+                    var editAccount = account.FirstOrDefault();
 
-                var user = (from d in db.MstUsers where d.UserName == User.Identity.Name select d).SingleOrDefault();
+                    var user = (from d in db.MstUsers where d.UserName == User.Identity.Name select d).SingleOrDefault();
 
-                editAccount.AccountCode = value.AccountCode;
-                editAccount.Account = value.Account;
-                editAccount.AccountTypeId = value.AccountTypeId;
-                editAccount.AccountCashFlowId = value.AccountCashFlowId;
-                editAccount.IsLocked = true;
-                editAccount.UpdatedById = user.Id;
-                editAccount.UpdatedDateTime = DateTime.Now;
+                    editAccount.AccountCode = value.AccountCode;
+                    editAccount.Account = value.Account;
+                    editAccount.AccountTypeId = value.AccountTypeId;
+                    editAccount.AccountCashFlowId = value.AccountCashFlowId;
+                    editAccount.IsLocked = true;
+                    editAccount.UpdatedById = user.Id;
+                    editAccount.UpdatedDateTime = DateTime.Now;
 
-                db.SaveChanges();
+                    db.SaveChanges();
+                }
+                return Request.CreateResponse(HttpStatusCode.OK);
+            } catch (Exception e) {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, e.ToString());
             }
         }
 
         // DELETE api/MstAccount/5
-        public void Delete(int id)
+        public HttpResponseMessage Delete(int id)
         {
-            var account = from d in db.MstAccounts where d.Id == id select d;
-            if (account.Any())
-            {
-                var deleteAccount = account.FirstOrDefault();
-                db.MstAccounts.Remove(deleteAccount);
-                db.SaveChanges();
+            try { 
+                var account = from d in db.MstAccounts where d.Id == id select d;
+                if (account.Any())
+                {
+                    var deleteAccount = account.FirstOrDefault();
+                    db.MstAccounts.Remove(deleteAccount);
+                    db.SaveChanges();
+                }
+                return Request.CreateResponse(HttpStatusCode.OK);
+            } catch(Exception e) {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, e.ToString());
             }
         }
     }
