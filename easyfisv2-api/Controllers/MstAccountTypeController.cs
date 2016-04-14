@@ -35,24 +35,105 @@ namespace easyfisv2_api.Controllers
         }
 
         // GET api/MstAccountType/5
-        public string Get(int id)
+        public MstAccountType Get(int id)
         {
-            return "value";
+            var accountType = from d in db.MstAccountTypes
+                              where d.Id == id
+                              select new Models.MstAccountType
+                              {
+                                    Id = d.Id,
+                                    AccountTypeCode = d.AccountTypeCode,
+                                    AccountType = d.AccountType,
+                                    AccountCategoryId = d.AccountCategoryId,
+                                    AccountCategory = d.MstAccountCategories.AccountCategory,
+                                    SubCategoryDescription = d.SubCategoryDescription,
+                                    IsLocked = d.IsLocked,
+                                    CreatedById = d.CreatedById,
+                                    CreatedDateTime = d.CreatedDateTime,
+                                    UpdatedById = d.UpdatedById,
+                                    UpdatedDateTime = d.UpdatedDateTime
+                              };
+            return accountType.FirstOrDefault();
         }
 
         // POST api/MstAccountType
-        public void Post([FromBody]string value)
+        public HttpResponseMessage Post([FromBody]MstAccountType value)
         {
+            try
+            {
+                var user = (from d in db.MstUsers where d.UserName == User.Identity.Name select d).SingleOrDefault();
+
+                Data.MstAccountType newAccountType = new Data.MstAccountType();
+
+                newAccountType.AccountTypeCode = value.AccountTypeCode;
+                newAccountType.AccountType = value.AccountCategory;
+                newAccountType.AccountCategoryId = value.AccountCategoryId;
+                newAccountType.SubCategoryDescription = value.SubCategoryDescription;
+                newAccountType.IsLocked = true;
+                newAccountType.CreatedById = user.Id;
+                newAccountType.CreatedDateTime = DateTime.Now;
+                newAccountType.UpdatedById = user.Id;
+                newAccountType.UpdatedDateTime = DateTime.Now;
+
+                db.MstAccountTypes.Add(newAccountType);
+                db.SaveChanges();
+
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, e.ToString());
+            }
         }
 
         // PUT api/MstAccountType/5
-        public void Put(int id, [FromBody]string value)
+        public HttpResponseMessage Put(int id, [FromBody]MstAccountType value)
         {
+            try
+            {
+                var accountType = from d in db.MstAccountTypes where d.Id == id select d;
+                if (accountType.Any())
+                {
+                    var editAccountType = accountType.FirstOrDefault();
+
+                    var user = (from d in db.MstUsers where d.UserName == User.Identity.Name select d).SingleOrDefault();
+
+                    editAccountType.AccountTypeCode = value.AccountTypeCode;
+                    editAccountType.AccountType = value.AccountType;
+                    editAccountType.AccountCategoryId = value.AccountCategoryId;
+                    editAccountType.SubCategoryDescription = value.SubCategoryDescription;
+                    editAccountType.IsLocked = true;
+                    editAccountType.UpdatedById = user.Id;
+                    editAccountType.UpdatedDateTime = DateTime.Now;
+
+                    db.SaveChanges();
+                }
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, e.ToString());
+            }
         }
 
         // DELETE api/MstAccountType/5
-        public void Delete(int id)
+        public HttpResponseMessage Delete(int id)
         {
+            try
+            {
+                var accountType = from d in db.MstAccountTypes where d.Id == id select d;
+                if (accountType.Any())
+                {
+                    var deleteAccountType = accountType.FirstOrDefault();
+                    db.MstAccountTypes.Remove(deleteAccountType);
+                    db.SaveChanges();
+                }
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, e.ToString());
+            }
         }
     }
 }

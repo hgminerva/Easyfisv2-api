@@ -31,25 +31,99 @@ namespace easyfisv2_api.Controllers
             return accountCashFlows.ToList();
         }
 
-        // GET api/<controller>/5
-        public string Get(int id)
+        // GET api/AccountCashFlow/5
+        public MstAccountCashFlow Get(int id)
         {
-            return "value";
+            var accountCashFlow = from d in db.MstAccountCashFlows
+                                  where d.Id == id
+                                  select new Models.MstAccountCashFlow
+                                  {
+                                       Id = d.Id,
+                                       AccountCashFlowCode = d.AccountCashFlowCode,
+                                       AccountCashFlow = d.AccountCashFlow,
+                                       IsLocked = d.IsLocked,
+                                       CreatedById = d.CreatedById,
+                                       CreatedDateTime = d.CreatedDateTime,
+                                       UpdatedById = d.UpdatedById,
+                                       UpdatedDateTime = d.UpdatedDateTime
+                                  };
+            return accountCashFlow.FirstOrDefault();
         }
 
-        // POST api/<controller>
-        public void Post([FromBody]string value)
+        // POST api/AccountCashFlow
+        public HttpResponseMessage Post([FromBody]MstAccountCashFlow value)
         {
+            try
+            {
+                var user = (from d in db.MstUsers where d.UserName == User.Identity.Name select d).SingleOrDefault();
+
+                Data.MstAccountCashFlow newAccountCashFlow = new Data.MstAccountCashFlow();
+
+                newAccountCashFlow.AccountCashFlowCode = value.AccountCashFlowCode;
+                newAccountCashFlow.AccountCashFlow = value.AccountCashFlow;
+                newAccountCashFlow.IsLocked = true;
+                newAccountCashFlow.CreatedById = user.Id;
+                newAccountCashFlow.CreatedDateTime = DateTime.Now;
+                newAccountCashFlow.UpdatedById = user.Id;
+                newAccountCashFlow.UpdatedDateTime = DateTime.Now;
+
+                db.MstAccountCashFlows.Add(newAccountCashFlow);
+                db.SaveChanges();
+
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, e.ToString());
+            }
         }
 
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
+        // PUT api/AccountCashFlow/5
+        public HttpResponseMessage Put(int id, [FromBody]MstAccountCashFlow value)
         {
+            try
+            {
+                var accountCashFlow = from d in db.MstAccountCashFlows where d.Id == id select d;
+                if (accountCashFlow.Any())
+                {
+                    var editAccountCashFlow = accountCashFlow.FirstOrDefault();
+
+                    var user = (from d in db.MstUsers where d.UserName == User.Identity.Name select d).SingleOrDefault();
+
+                    editAccountCashFlow.AccountCashFlowCode = value.AccountCashFlowCode;
+                    editAccountCashFlow.AccountCashFlow = value.AccountCashFlow;
+                    editAccountCashFlow.IsLocked = true;
+                    editAccountCashFlow.UpdatedById = user.Id;
+                    editAccountCashFlow.UpdatedDateTime = DateTime.Now;
+
+                    db.SaveChanges();
+                }
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, e.ToString());
+            }
         }
 
-        // DELETE api/<controller>/5
-        public void Delete(int id)
+        // DELETE api/AccountCashFlow/5
+        public HttpResponseMessage Delete(int id)
         {
+            try
+            {
+                var accountCashFlow = from d in db.MstAccountCashFlows where d.Id == id select d;
+                if (accountCashFlow.Any())
+                {
+                    var deleteAccountCashFlow = accountCashFlow.FirstOrDefault();
+                    db.MstAccountCashFlows.Remove(deleteAccountCashFlow);
+                    db.SaveChanges();
+                }
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, e.ToString());
+            }
         }
     }
 }
