@@ -66,7 +66,7 @@ namespace easyfisv2_api.Controllers
                 Data.MstAccountType newAccountType = new Data.MstAccountType();
 
                 newAccountType.AccountTypeCode = value.AccountTypeCode;
-                newAccountType.AccountType = value.AccountCategory;
+                newAccountType.AccountType = value.AccountType;
                 newAccountType.AccountCategoryId = value.AccountCategoryId;
                 newAccountType.SubCategoryDescription = value.SubCategoryDescription;
                 newAccountType.IsLocked = true;
