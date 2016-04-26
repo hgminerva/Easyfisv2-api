@@ -5,12 +5,13 @@ using System.Web;
 
 namespace easyfisv2_api.Data
 {
-    public class MstAccountCashFlow
+    public class MstCompany
     {
-
         public Int32 Id { get; set; }
-        public String AccountCashFlowCode { get; set; }
-        public String AccountCashFlow { get; set; }
+        public String Company { get; set; }
+        public String Address { get; set; }
+        public String ContactNumber { get; set; }
+        public String TaxNumber { get; set; }
         public Boolean IsLocked { get; set; }
         public Int32 CreatedById { get; set; }
         public DateTime CreatedDateTime { get; set; }
@@ -18,12 +19,12 @@ namespace easyfisv2_api.Data
         public DateTime UpdatedDateTime { get; set; }
 
         // FK
-        public virtual ICollection<MstAccount> MstAccounts { get; set; }
+        public virtual ICollection<MstBranch> MstBranches { get; set; }
 
         // Method
-        public MstAccountCashFlow()
+        public MstCompany()
         {
-            this.MstAccounts = new HashSet<MstAccount>();
+            this.MstBranches = new HashSet<MstBranch>();
         }
     }
 }

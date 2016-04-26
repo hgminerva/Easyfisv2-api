@@ -5,17 +5,16 @@ using System.Web;
 
 namespace easyfisv2_api.Models
 {
-    public class MstUser
+    public class MstBranch
     {
         public Int32 Id { get; set; }
-        public String UserName { get; set; }
-        public String Password { get; set; }
-        public String FullName { get; set; }
-        public Int32 IncomeAccountId { get; set; }
-        public Int32 BranchId { get; set; }
+        public String BranchCode { get; set; }
         public String Branch { get; set; }
+        public String Address { get; set; }
+        public String ContactNumber { get; set; }
+        public String TaxNumber { get; set; }
+        public Int32 CompanyId { get; set; }
         public String Company { get; set; }
-        public String UserId { get; set; } // ASP.NET User Id
         public Boolean IsLocked { get; set; }
         public Int32 CreatedById { get; set; }
         public DateTime CreatedDateTime { get; set; }

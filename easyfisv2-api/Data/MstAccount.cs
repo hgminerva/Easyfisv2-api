@@ -11,14 +11,17 @@ namespace easyfisv2_api.Data
         public Int32 Id { get; set; }
         public String AccountCode { get; set; }
         public String Account { get; set; }
+
         public Int32 AccountTypeId { get; set; }
 
         [ForeignKey("AccountTypeId")]
         public virtual MstAccountType MstAccountType { get; set; }
+
         public Int32 AccountCashFlowId { get; set; }
 
         [ForeignKey("AccountCashFlowId")]
         public virtual MstAccountCashFlow MstAccountCashFlow { get; set; }
+
         public Boolean IsLocked { get; set; }
         public Int32 CreatedById { get; set; }
         public DateTime CreatedDateTime { get; set; }
